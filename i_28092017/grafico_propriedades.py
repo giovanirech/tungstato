@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 import sys
 import numpy as np
-from random import getrandbits
-import os
 from matplotlib import use
 use('Agg')
-
+import matplotlib.pyplot as plt
 
 #Dados experimentais
 T_parametro_exp = np.asarray([2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80,82,84,86,88,90,92,94,96,98,100,102,104,106,108,110,112,114,116,118,120,122,124,126,128,130,132,134,136,138,140,142,144,146,148,150,152,154,156,158,160,162,164,166,168,170,172,174,176,178,180,182,184,186,188,190,192,194,196,198,200,202,204,206,208,210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,250,252,254,256,258,260,262,264,266,268,270,272,274,276,278,280,282,284,286,288,290,292,294,296,298,300,302,304,306,308,310,312,314,316,318,320,322,324,326,328,330,332,334,336,338,340,342,344,346,348,350,352,354,356,358,360,362,364,366,368,370,372,374,376,378,380,382,384,386,388,390,392,394,396,398,400,402,404,406,408,410,412,414,416,418,420,422,424,426,428,430,432,434,436,438,440,442,444,446,448,450,452,454,456,458,460,462,464,466,468,470,472,474,476,478,480,482,484,486,488,490,492,494,496,498,500,502,504,506,508,510,512,514,516,518,520])
@@ -18,85 +16,111 @@ c11_exp = np.asarray([ 161.791704,  161.889288,  161.586264,  161.181804,  160.8
 
 #---------------------------------------------------------------
 def coleta_potencial_por_codigo(codigo):
+    encontrou = False
     with open('resultados_potencial.txt', 'r') as f:
         linhas = f.readlines()
     for l in linhas[1:]:
         if str(codigo) in l.split('\t')[0]:
-            codigo,custo,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0 = l.rstrip('\n').split('\t')
-            return codigo,custo,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0
-    return linhas[indice].split('\t')[1:]
+            encontrou=True
+            codigo2,custo_potencial,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0 = l.rstrip('\n').split('\t')
+            return encontrou, codigo, float(custo_potencial),float(chargeO),float(buckZrA),float(buckZrRho),float(buckWA),float(buckWRho),float(buckOA),float(buckORho),float(buckOC),float(springO),float(threebOWO),float(threebOZrO),float(covexpWD),float(covexpWa),float(covexpWr0)
+    return encontrou,codigo,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0
 
+def coleta_propriedades_por_codigo(codigo):
+    encontrou = False
+    with open('resultados_propriedades.txt') as f:
+        linhas = f.readlines()
+    for l in linhas[1:]:
+        if str(codigo) in l.split('\t')[0]:
+            encontrou=True
+            codigo2,custo_propriedades,a2,a50,a100,a150,a200,a250,a293,c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293,c12_2,c12_50,c12_100,c12_150,c12_200,c12_250,c12_293,c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293 = l.rstrip('\n').split('\t')
+            return encontrou,codigo,float(custo_propriedades),float(a2),float(a50),float(a100),float(a150),float(a200),float(a250),float(a293),float(c11_2),float(c11_50),float(c11_100),float(c11_150),float(c11_200),float(c11_250),float(c11_293),float(c12_2),float(c12_50),float(c12_100),float(c12_150),float(c12_200),float(c12_250),float(c12_293),float(c44_2),float(c44_50),float(c44_100),float(c44_150),float(c44_200),float(c44_250),float(c44_293)
+    return encontrou,codigo,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+def coleta_custos_por_codigo(codigo):
+    encontrou = False
+    with open('custos_individuais.txt', 'r') as f:
+        linhas = f.readlines()
+    for l in linhas[1:]:
+        if str(codigo) in l.split('\t')[0]:
+            encontrou=True
+            codigo2,custo_total,custo_parametros,custo_posicoes,custo_constantes = l.rstrip('\n').split('\t')
+            return encontrou, codigo, float(custo_total), float(custo_parametros), float(custo_posicoes), float(custo_constantes)
+    return encontrou,codigo,0,0,0,0
 #------------------------------------------------
-def testa_potencial_grafico(chargeO, buckZrA, buckZrRho, buckWA, buckWRho, buckOA, buckORho, buckOC, springO, threebOZrO, threebOWO, covexpWD, covexpWa, covexpWr0):
-    id_arquivo = getrandbits(64)
-    print 'ID de arquivo:%s'%id_arquivo
-    os.mkdir(str(id_arquivo))
-    os.chdir(str(id_arquivo))
-    cria_arquivo_entrada(id_arquivo, chargeO, buckZrA, buckZrRho, buckWA, buckWRho, buckOA, buckORho, buckOC, springO, threebOZrO, threebOWO, covexpWD, covexpWa, covexpWr0)
-    print 'Executando GULP... Isto pode demorar vários minutos'
-    os.system('timeout 10800 %sgulp < %s.gin > %s.gout'%(caminho_gulp, id_arquivo, id_arquivo))
-    finalizou_sem_erros = verifica_final_execucao(id_arquivo)
-    if not finalizou_sem_erros:
-        print 'Erro na execução do arquivo GULP. Este potencial pode ser inválido. Verifique o arquivo %s.gin para mais detalhes'%(id_arquivo)
-    else:
-        T_calc = np.asarray([2, 50, 100 ,150, 200, 250, 293])
-        par_calc = np.asarray(busca_parametros_de_rede(id_arquivo))
-        (c11_2K, c12_2K, c44_2K, c11_50K, c12_50K, c44_50K, c11_100K, c12_100K, c44_100K, c11_150K, c12_150K, c44_150K, c11_200K, c12_200K, c44_200K, c11_250K, c12_250K, c44_250K, c11_293K, c12_293K, c44_293K) = busca_constantes_elasticas(id_arquivo)
-        c11_calc = np.asarray([c11_2K, c11_50K, c11_100K, c11_150K, c11_200K, c11_250K, c11_293K])
-        c44_calc = np.asarray([c44_2K, c44_50K, c44_100K, c44_150K, c44_200K, c44_250K, c44_293K])
+def grafico_propriedades(codigo, custo_potencial, parametros_potencial, a_calc, c11_calc, c44_calc):
+    T_calc = np.asarray([2, 50, 100 ,150, 200, 250, 293])
+    
+    fig = plt.figure(figsize=(8,20))
+    
+    #Parametros do potencial
+    ax0 = fig.add_subplot(4,1,1)
+    ax0.axis('off')
+    ax0.annotate(s='Potencial %s'%codigo, xy=(0.2, 1.0), fontsize=16)
+    ax0.annotate(s='Custo: %s'%custo_potencial, xy=(0.2, 0.9), fontsize=16)
+    ax0.annotate(s='Carga O: %s'%parametros_potencial[0], xy=(0.02,0.7), fontsize=12)
+    ax0.annotate(s='Buckingham Zr-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[1],parametros_potencial[2],0), xy=(0.02,0.6), fontsize=12)
+    ax0.annotate(s='Buckingham W-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[3],parametros_potencial[4],0), xy=(0.02,0.5), fontsize=12)
+    ax0.annotate(s='Buckingham O-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[5],parametros_potencial[6],parametros_potencial[7]), xy=(0.02,0.4), fontsize=12) 
+    ax0.annotate(s='Spring Oc-Os: %s'%parametros_potencial[8], xy=(0.02,0.3), fontsize=12)
+    ax0.annotate(s='3-Body O-W-O: %s'%parametros_potencial[9], xy=(0.02,0.2), fontsize=12)
+    ax0.annotate(s='3-Body O-Zr-O: %s'%parametros_potencial[10], xy=(0.02,0.1), fontsize=12)
+    ax0.annotate(s='Covexp W-O: D=%s,  a=%s,  r0=%s'%(parametros_potencial[11],parametros_potencial[12],parametros_potencial[13]), xy=(0.02,0.0), fontsize=12)
+
+    #Parametrode rede
+    ax1 = fig.add_subplot(4,1,2)
+    plt.plot(T_parametro_exp, parametro_exp, 'o', label='Experimental')
+    plt.plot(T_calc, a_calc, label='Potencial %s'%codigo)
+    ax1.set_xlim(0,300)
+    ax1.set_xlabel('Temperatura (K)')
+    ax1.set_ylabel('Parametro de rede (A)')
+    ax1.legend()
         
-        #Grafico
-        fig = plt.figure(figsize=(8,15))
+    ###  C11 #####
+    ax2 = fig.add_subplot(4, 1, 3)
+    plt.plot(T_c11_exp, c11_exp, 'o', label = 'Experimental')
+    plt.plot(T_calc, c11_calc, label='Potencial %s'%codigo)
+    ax2.set_xlim(0,300)
+    ax2.set_xlabel('Temperatura (K)')
+    ax2.set_ylabel('C$\mathbf{_{11}}$ (GPa)')
+    ax2.legend()
         
-        #Parametrode rede#
-        ax1 = fig.add_subplot(3,1,1)
-        plt.plot(T_parametro_exp, parametro_exp, 'o', label='Experimental')
-        plt.plot(T_calc, par_calc, label='Potencial %s'%id_arquivo)
-        ax1.set_xlim(0,300)
-        ax1.set_xlabel('Temperatura (K)')
-        ax1.set_ylabel('Parametro de rede (A)')
-        ax1.legend()
+    ### C44 ###
+    ax3 = fig.add_subplot(4, 1, 4)
+    plt.plot(T_c44_exp, c44_exp, 'o', label = 'Experimental')
+    plt.plot(T_calc, c44_calc, label='Potencial %s'%codigo)
+    ax3.set_xlim(0,300)
+    ax3.set_xlabel('Temperatura (K)')
+    ax3.set_ylabel('C$\mathbf{_{44}}$ (GPa)')
+    ax3.legend()
         
-        ###  C11 #####
-        ax2 = fig.add_subplot(3, 1, 2)
-        plt.plot(T_c11_exp, c11_exp, 'o', label = 'Experimental')
-        plt.plot(T_calc, c11_calc, label='Potencial %s'%id_arquivo)
-        ax2.set_xlim(0,300)
-        ax2.set_xlabel('Temperatura (K)')
-        ax2.set_ylabel('C$\mathbf{_{11}}$ (GPa)')
-        ax2.legend()
-        
-        ### C44 ###
-        ax3 = fig.add_subplot(3, 1, 3)
-        plt.plot(T_c44_exp, c44_exp, 'o', label = 'Experimental')
-        plt.plot(T_calc, c44_calc, label='Potencial %s'%id_arquivo)
-        ax3.set_xlim(0,300)
-        ax3.set_xlabel('Temperatura (K)')
-        ax3.set_ylabel('C$\mathbf{_{44}}$ (GPa)')
-        ax3.legend()
-        
-        plt.tight_layout()
-        plt.savefig('%s.png'%id_arquivo)
-        
-    os.chdir('..')
+    plt.tight_layout()
+    plt.savefig('%s.png'%codigo)
 
 
-
-#Le potencial de input
-#Custo chargeO buckZrA buckZrRho buckWA buckWRho buckOA buckORho buckOC springO 3bOZrO 3bOWO covexpWD covexpWa covexpWr0 shiftE
+#PRINCIPAL
 if len(sys.argv)!=2:
     print u'Voce deve fornecer o ID do potencial como argumento de entrada.'
 else:
-    print 'Potencial selecionado:'
-    print '   Carga O_core: %s'%chargeO
-    print '   Buckingham Zr-O: A= %s,  rho= %s,  C= 0'%(buckZrA, buckZrRho)
-    print '   Buckingham W-O: A= %s,  rho= %s,  C= 0'%(buckWA, buckWRho)
-    print '   Buckingham O-O: A= %s,  rho= %s,  C= %s'%(buckOA, buckORho, buckOC)
-    print '   Spring O_core-O_shell: %s'%springO
-    print '   3-Body O-Zr-O: %s'%threebOZrO
-    print '   3-Body O-W-O: %s'%threebOWO 
-    print '   Covexp W-O: D= %s,  a= %s,  r0=%s'%(covexpWD,covexpWa,covexpWr0) 
-    print '   Shift Energia: %s'%shiftE
-    testa_potencial_grafico(chargeO, buckZrA, buckZrRho, buckWA, buckWRho, buckOA, buckORho, buckOC, springO, threebOZrO, threebOWO, covexpWD, covexpWa, covexpWr0)
-
+    codigo = str(sys.argv[1])
+    encontrou_potencial, codigo_potencial,custo_potencial,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0 = coleta_potencial_por_codigo(codigo)
+    encontrou_propriedades,codigo_prop,custo_prop,a2,a50,a100,a150,a200,a250,a293,c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293,c12_2,c12_50,c12_100,c12_150,c12_200,c12_250,c12_293,c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293=coleta_propriedades_por_codigo(codigo)
+    parametros_potencial = np.asarray([chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0])
+    a_calc = np.asarray([a2,a50,a100,a150,a200,a250,a293])
+    c11_calc = np.asarray([c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293])
+    c44_calc = np.asarray([c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293])
+    if encontrou_potencial:   
+        print 'Potencial selecionado:%s'%codigo
+        print '   Carga O_core: %s'%chargeO
+        print '   Buckingham Zr-O: A= %s,  rho= %s,  C= 0'%(buckZrA, buckZrRho)
+        print '   Buckingham W-O: A= %s,  rho= %s,  C= 0'%(buckWA, buckWRho)
+        print '   Buckingham O-O: A= %s,  rho= %s,  C= %s'%(buckOA, buckORho, buckOC)
+        print '   Spring O_core-O_shell: %s'%springO
+        print '   3-Body O-Zr-O: %s'%threebOZrO
+        print '   3-Body O-W-O: %s'%threebOWO 
+        print '   Covexp W-O: D= %s,  a= %s,  r0=%s'%(covexpWD,covexpWa,covexpWr0) 
+        print 'Custo: %s'%custo_potencial
+        grafico_propriedades(codigo, custo_potencial, parametros_potencial, a_calc, c11_calc, c44_calc)
+    else:
+        print 'Potencial nao encontrado.'
         

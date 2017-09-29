@@ -157,6 +157,8 @@ c44_293K_experimental =  27.4
 peso_parametros = 1
 peso_posicoes = 1
 peso_constantes = 1
+peso_variacao_parametro_rede = 1
+peso_variacao_constantes = 1
 
 penalidade = 3.0
 

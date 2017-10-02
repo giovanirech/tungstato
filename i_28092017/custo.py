@@ -145,8 +145,8 @@ def funcao_custo(parametro_rede_a_2K, zr_x_2K, w1_x_2K, w2_x_2K,
     variacao_constantes = definicoes.peso_variacao_constantes*(abs(1.0-delta_c11_calc/delta_c11_exp)+
                                                                abs(1.0-delta_c12_calc/delta_c12_exp)+
                                                                abs(1.0-delta_c44_calc/delta_c44_exp))/3.0                           
-    custo_total = parametros + posicoes +  constantes + variacao_parametro_rede+variacao_constantes
-    return custo_total, parametros, posicoes, constantes
+    custo_total = parametros + posicoes +  constantes + variacao_parametro_rede + variacao_constantes
+    return custo_total, parametros, posicoes, constantes, variacao_parametro_rede, variacao_constantes
 
 
 #--------------------------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ def calcula_custo (arquivo_saida):
     if ( saida.verifica_final_execucao(arquivo_saida) == True ):
         parametro_rede_a_2K, zr_x_2K, w1_x_2K, w2_x_2K,o1_x_2K, o1_y_2K, o1_z_2K, o2_x_2K, o2_y_2K, o2_z_2K,o3_x_2K, o4_x_2K, c11_2K, c12_2K, c44_2K, parametro_rede_a_50K, zr_x_50K, w1_x_50K, w2_x_50K, o1_x_50K, o1_y_50K, o1_z_50K, o2_x_50K, o2_y_50K, o2_z_50K, o3_x_50K, o4_x_50K, c11_50K, c12_50K, c44_50K, parametro_rede_a_100K, zr_x_100K, w1_x_100K, w2_x_100K, o1_x_100K, o1_y_100K, o1_z_100K, o2_x_100K, o2_y_100K, o2_z_100K, o3_x_100K, o4_x_100K, c11_100K, c12_100K, c44_100K, parametro_rede_a_150K, zr_x_150K, w1_x_150K, w2_x_150K, o1_x_150K, o1_y_150K, o1_z_150K, o2_x_150K, o2_y_150K, o2_z_150K,o3_x_150K, o4_x_150K, c11_150K, c12_150K, c44_150K, parametro_rede_a_200K, zr_x_200K, w1_x_200K, w2_x_200K, o1_x_200K, o1_y_200K, o1_z_200K, o2_x_200K, o2_y_200K, o2_z_200K, o3_x_200K, o4_x_200K, c11_200K, c12_200K, c44_200K, parametro_rede_a_250K, zr_x_250K, w1_x_250K, w2_x_250K, o1_x_250K, o1_y_250K, o1_z_250K, o2_x_250K, o2_y_250K, o2_z_250K, o3_x_250K, o4_x_250K, c11_250K, c12_250K, c44_250K, parametro_rede_a_293K, zr_x_293K, w1_x_293K, w2_x_293K, o1_x_293K, o1_y_293K, o1_z_293K, o2_x_293K, o2_y_293K, o2_z_293K, o3_x_293K, o4_x_293K, c11_293K, c12_293K, c44_293K = saida.busca_valores_arquivo_saida (arquivo_saida)
         
-        custo_total, parametros, posicoes, constantes = funcao_custo(parametro_rede_a_2K, zr_x_2K, w1_x_2K, w2_x_2K,
+        custo_total, parametros, posicoes, constantes, variacao_parametro_rede, variacao_constantes = funcao_custo(parametro_rede_a_2K, zr_x_2K, w1_x_2K, w2_x_2K,
                  o1_x_2K, o1_y_2K, o1_z_2K, o2_x_2K, o2_y_2K, o2_z_2K, 
                  o3_x_2K, o4_x_2K, c11_2K, c12_2K, c44_2K,#------------------------------------------------
                  parametro_rede_a_50K, zr_x_50K, w1_x_50K, w2_x_50K,
@@ -177,11 +177,13 @@ def calcula_custo (arquivo_saida):
                  o3_x_293K, o4_x_293K, c11_293K, c12_293K, c44_293K)
     else:
         custo_total = definicoes.penalidade
-        parametros = definicoes.penalidade/3
-        posicoes = definicoes.penalidade/3
-        constantes = definicoes.penalidade/3
+        parametros = definicoes.penalidade/5
+        posicoes = definicoes.penalidade/5
+        constantes = definicoes.penalidade/5
+        variacao_parametro_rede = definicoes.penalidade/5
+        variacao_constantes = definicoes.penalidade/5
     
-    return custo_total, parametros, posicoes, constantes
+    return custo_total, parametros, posicoes, constantes, variacao_parametro_rede, variacao_constantes
 
 #--------------------------------------------------------------------------------------------------
 

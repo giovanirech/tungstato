@@ -44,9 +44,9 @@ def coleta_custos_por_codigo(codigo):
     for l in linhas[1:]:
         if str(codigo) in l.split('\t')[0]:
             encontrou=True
-            codigo2,custo_total,custo_parametros,custo_posicoes,custo_constantes = l.rstrip('\n').split('\t')
-            return encontrou, codigo, float(custo_total), float(custo_parametros), float(custo_posicoes), float(custo_constantes)
-    return encontrou,codigo,0,0,0,0
+            codigo2,custo_total,custo_parametros,custo_posicoes,custo_constantes, custo_variacao_rede, custo_variacao_constantes = l.rstrip('\n').split('\t')
+            return encontrou, codigo, float(custo_total), float(custo_parametros), float(custo_posicoes), float(custo_constantes), float(custo_variacao_rede), float(custo_variacao_constantes)
+    return encontrou,codigo,0,0,0,0,0,0
 #------------------------------------------------
 def grafico_propriedades(codigo, custo_potencial, parametros_potencial, a_calc, c11_calc, c44_calc):
     T_calc = np.asarray([2, 50, 100 ,150, 200, 250, 293])

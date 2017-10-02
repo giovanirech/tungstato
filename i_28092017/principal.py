@@ -41,14 +41,14 @@ def escreve_arquivo_propriedades(arquivo_propriedades,i_str,valor_custo,a2,a50,a
                                  c12_2,c12_50,c12_100,c12_150,c12_200,c12_250,c12_293,
                                  c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293))
 
-def escreve_arquivo_custos(arquivo_custos_individuais,i_str, custo_total, custo_parametros, custo_posicoes, custo_constantes):
+def escreve_arquivo_custos(arquivo_custos_individuais,i_str, custo_total, custo_parametros, custo_posicoes, custo_constantes, custo_variacao_rede, custo_variacao_constantes):
     with FileLock('lock_custos'):
         if os.path.exists(arquivo_custos_individuais):
             append_write = 'a' 
         else:
             append_write = 'w' 
         with open(arquivo_custos_individuais, append_write) as f:
-            f.write('%s\t%s\t%s\t%s\t%s\n'%(i_str, custo_total, custo_parametros, custo_posicoes, custo_constantes)) 
+            f.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(i_str, custo_total, custo_parametros, custo_posicoes, custo_constantes, custo_variacao_rede, custo_variacao_constantes)) 
 
 #-------------------------------------------------------
 
@@ -78,7 +78,7 @@ def funcao (P):
     
     entrada.executa_arquivo_gulp(arquivo_entrada_execucao, arquivo_saida_execucao)
 
-    custo_total, custo_parametros, custo_posicoes, custo_constantes = custo.calcula_custo(arquivo_saida_execucao)
+    custo_total, custo_parametros, custo_posicoes, custo_constantes, custo_variacao_rede, custo_variacao_constantes = custo.calcula_custo(arquivo_saida_execucao)
 
     linhas_arquivo_saida_gulp = saida.le_linhas_arquivo_saida(arquivo_saida_execucao)
     
@@ -112,7 +112,7 @@ def funcao (P):
     #write to file
     escreve_arquivo_potencial(arquivo_potencial,i_str,custo_total,P[0],P[1],P[2],P[3],P[4],P[5],P[6],P[7],P[8],P[9],P[10],P[11],P[12],P[13])
     escreve_arquivo_propriedades(arquivo_propriedades,i_str,custo_total,a2,a50,a100,a150,a200,a250,a293,c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293,c12_2,c12_50,c12_100,c12_150,c12_200,c12_250,c12_293,c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293)               
-    escreve_arquivo_custos(arquivo_custos_individuais,i_str, custo_total, custo_parametros, custo_posicoes, custo_constantes)
+    escreve_arquivo_custos(arquivo_custos_individuais,i_str, custo_total, custo_parametros, custo_posicoes, custo_constantes, custo_variacao_rede, custo_variacao_constantes)
     
     return custo_total
 
@@ -145,7 +145,7 @@ if __name__=='__main__':
         f.write('#i_str\tcusto\ta2\ta50\ta100\ta150\ta200\ta250\ta293\tc11_2\tc11_50\tc11_100\tc11_150\tc11_200\tc11_250\tc11_293\tc12_2\tc12_50\tc12_100\tc12_150\tc12_200\tc12_250\tc12_293\tc44_2\tc44_50\tc44_100\tc44_150\tc44_200\tc44_250\tc44_293\n')
         
     with open(arquivo_custos_individuais, 'w') as f:
-        f.write('#i_str\tcusto_total\tcusto_parametros\tcusto_posicoes\tcusto_constantes\n')
+        f.write('#i_str\tcusto_total\tcusto_parametros\tcusto_posicoes\tcusto_constantes\tcusto_delta_a\tcusto_delta_constantes\n')
 
     if os.path.exists('tmp')==False:
         os.mkdir('tmp')

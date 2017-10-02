@@ -160,7 +160,7 @@ peso_constantes = 1
 peso_variacao_parametro_rede = 1
 peso_variacao_constantes = 1
 
-penalidade = 3.0
+penalidade = 5000.0
 
 #--------------------------------------------------------
 

@@ -12,21 +12,21 @@ import time
 from filelock import FileLock
 
 #-----------------------------------------------------------------------#
-nome_arquivo_entrada_gulp = "i_modeloentradagulp.gin"
+nome_arquivo_entrada_gulp = "j_modeloentradagulp.gin"
 arquivo_potencial = 'resultados_potencial.txt'
 arquivo_propriedades = 'resultados_propriedades.txt'
 arquivo_custos_individuais = 'custos_individuais.txt'
 i = 0
 
 #-----------------------------------------------------------------------#
-def escreve_arquivo_potencial(arquivo_potencial,i_str,valor_custo,P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13):
+def escreve_arquivo_potencial(arquivo_potencial,i_str,valor_custo,P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22):
     with FileLock('lock_potencial'):
         if os.path.exists(arquivo_potencial):
             append_write = 'a' 
         else:
             append_write = 'w' 
         with open(arquivo_potencial, append_write) as f:
-            f.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(i_str,valor_custo,P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13)) 
+            f.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(i_str,valor_custo,P0,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22)) 
 
 def escreve_arquivo_propriedades(arquivo_propriedades,i_str,valor_custo,a2,a50,a100,a150,a200,a250,a293,c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293,c12_2,c12_50,c12_100,c12_150,c12_200,c12_250,c12_293,c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293):               
     with FileLock('lock_propriedades'):
@@ -102,7 +102,10 @@ def funcao (P):
     print '   spring O:  K= %s'%P[8]
     print '   three O-W-O: k = %s'%(P[9])
     print '   three O-Zr-O: k = %s'%(P[10])
-    print '   covexp W-O: D= %s, a= %s, r0= %s'%(P[11], P[12], P[13])
+    print '   covexp W-O1: D= %s, a= %s, r0= %s'%(P[11], P[12], P[13])
+    print '   covexp W-O2: D= %s, a= %s, r0= %s'%(P[14], P[15], P[16])
+    print '   covexp W-O3: D= %s, a= %s, r0= %s'%(P[17], P[18], P[19])
+    print '   covexp W-O4: D= %s, a= %s, r0= %s'%(P[20], P[21], P[22])
     print 'Custo: %s'%custo_total
     print '###########################################################'
     
@@ -110,7 +113,7 @@ def funcao (P):
         os.system('rm -r tmp/%s'%i_str)
     
     #write to file
-    escreve_arquivo_potencial(arquivo_potencial,i_str,custo_total,P[0],P[1],P[2],P[3],P[4],P[5],P[6],P[7],P[8],P[9],P[10],P[11],P[12],P[13])
+    escreve_arquivo_potencial(arquivo_potencial,i_str,custo_total,P[0],P[1],P[2],P[3],P[4],P[5],P[6],P[7],P[8],P[9],P[10],P[11],P[12],P[13],P[14],P[15],P[16],P[17],P[18],P[19],P[20],P[21],P[22])
     escreve_arquivo_propriedades(arquivo_propriedades,i_str,custo_total,a2,a50,a100,a150,a200,a250,a293,c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293,c12_2,c12_50,c12_100,c12_150,c12_200,c12_250,c12_293,c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293)               
     escreve_arquivo_custos(arquivo_custos_individuais,i_str, custo_total, custo_parametros, custo_posicoes, custo_constantes)
     
@@ -135,11 +138,14 @@ if __name__=='__main__':
             (5, 90), #spring O
             (0,5.0), #3-body O-Zr-O
             (0,5.0), #3-body O-W-O
-            (1, 10), (10,50), (0.1, 3) #covexp W-O: D, a, r0
+            (1, 10), (10,50), (0.1, 3.0), #covexp W-O1: D, a, r0
+            (1, 10), (10,50), (0.1, 3.0), #covexp W-O2: D, a, r0
+            (1, 10), (10,50), (0.1, 3.0), #covexp W-O3: D, a, r0
+            (1, 10), (10,50), (0.1, 3.0) #covexp W-O4: D, a, r0
            ]
     
     with open(arquivo_potencial, 'w') as f:
-        f.write('#ID\tCusto\tchargeO\tbuckZrA\tbuckZrRho\tbuckWA\tbuckWRho\tbuckOA\tbuckORho\tbuckOC\tspringO\t3bOWO\t3bOZrO\tcovexpWD\tcovexpWa\tcovexpWr0\n')
+        f.write('#ID\tCusto\tchargeO\tbuckZrA\tbuckZrRho\tbuckWA\tbuckWRho\tbuckOA\tbuckORho\tbuckOC\tspringO\t3bOWO\t3bOZrO\tcovexpWO1D\tcovexpWO1a\tcovexpWO1r0\tcovexpWO2D\tcovexpWO2a\tcovexpWO2r0\tcovexpWO3D\tcovexpWO3a\tcovexpWO3r0\tcovexpWO4D\tcovexpWO4a\tcovexpWO4r0\n')
     
     with open(arquivo_propriedades, 'w') as f:
         f.write('#i_str\tcusto\ta2\ta50\ta100\ta150\ta200\ta250\ta293\tc11_2\tc11_50\tc11_100\tc11_150\tc11_200\tc11_250\tc11_293\tc12_2\tc12_50\tc12_100\tc12_150\tc12_200\tc12_250\tc12_293\tc44_2\tc44_50\tc44_100\tc44_150\tc44_200\tc44_250\tc44_293\n')

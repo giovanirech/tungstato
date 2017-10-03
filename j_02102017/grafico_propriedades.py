@@ -22,9 +22,9 @@ def coleta_potencial_por_codigo(codigo):
     for l in linhas[1:]:
         if str(codigo) in l.split('\t')[0]:
             encontrou=True
-            codigo2,custo_potencial,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0 = l.rstrip('\n').split('\t')
-            return encontrou, codigo, float(custo_potencial),float(chargeO),float(buckZrA),float(buckZrRho),float(buckWA),float(buckWRho),float(buckOA),float(buckORho),float(buckOC),float(springO),float(threebOWO),float(threebOZrO),float(covexpWD),float(covexpWa),float(covexpWr0)
-    return encontrou,codigo,0,0,0,0,0,0,0,0,0,0,0,0,0,0, 0
+            codigo2,custo_potencial,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWO1D,covexpWO1a,covexpWO1r0,covexpWO2D,covexpWO2a,covexpWO2r0,covexpWO3D,covexpWO3a,covexpWO3r0,covexpWO4D,covexpWO4a,covexpWO4r0 = l.rstrip('\n').split('\t')
+            return encontrou, codigo, float(custo_potencial),float(chargeO),float(buckZrA),float(buckZrRho),float(buckWA),float(buckWRho),float(buckOA),float(buckORho),float(buckOC),float(springO),float(threebOWO),float(threebOZrO),float(covexpWO1D),float(covexpWO1a),float(covexpWO1r0),float(covexpWO2D),float(covexpWO2a),float(covexpWO2r0),float(covexpWO3D),float(covexpWO3a),float(covexpWO3r0),float(covexpWO4D),float(covexpWO4a),float(covexpWO4r0)
+    return encontrou,codigo,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
 def coleta_propriedades_por_codigo(codigo):
     encontrou = False
@@ -58,14 +58,17 @@ def grafico_propriedades(codigo, custo_potencial, parametros_potencial, a_calc, 
     ax0.axis('off')
     ax0.annotate(s='Potencial %s'%codigo, xy=(0.2, 1.0), fontsize=16)
     ax0.annotate(s='Custo: %s'%custo_potencial, xy=(0.2, 0.9), fontsize=16)
-    ax0.annotate(s='Carga O: %s'%parametros_potencial[0], xy=(0.02,0.7), fontsize=12)
-    ax0.annotate(s='Buckingham Zr-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[1],parametros_potencial[2],0), xy=(0.02,0.6), fontsize=12)
-    ax0.annotate(s='Buckingham W-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[3],parametros_potencial[4],0), xy=(0.02,0.5), fontsize=12)
-    ax0.annotate(s='Buckingham O-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[5],parametros_potencial[6],parametros_potencial[7]), xy=(0.02,0.4), fontsize=12) 
-    ax0.annotate(s='Spring Oc-Os: %s'%parametros_potencial[8], xy=(0.02,0.3), fontsize=12)
-    ax0.annotate(s='3-Body O-W-O: %s'%parametros_potencial[9], xy=(0.02,0.2), fontsize=12)
-    ax0.annotate(s='3-Body O-Zr-O: %s'%parametros_potencial[10], xy=(0.02,0.1), fontsize=12)
-    ax0.annotate(s='Covexp W-O: D=%s,  a=%s,  r0=%s'%(parametros_potencial[11],parametros_potencial[12],parametros_potencial[13]), xy=(0.02,0.0), fontsize=12)
+    ax0.annotate(s='Carga O: %s'%parametros_potencial[0], xy=(0.02,0.7), fontsize=10)
+    ax0.annotate(s='Buckingham Zr-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[1],parametros_potencial[2],0), xy=(0.02,0.65), fontsize=10)
+    ax0.annotate(s='Buckingham W-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[3],parametros_potencial[4],0), xy=(0.02,0.60), fontsize=10)
+    ax0.annotate(s='Buckingham O-O: A=%s,  rho=%s,  C=%s'%(parametros_potencial[5],parametros_potencial[6],parametros_potencial[7]), xy=(0.02,0.55), fontsize=10) 
+    ax0.annotate(s='Spring Oc-Os: %s'%parametros_potencial[8], xy=(0.02,0.50), fontsize=10)
+    ax0.annotate(s='3-Body O-W-O: %s'%parametros_potencial[9], xy=(0.02,0.45), fontsize=10)
+    ax0.annotate(s='3-Body O-Zr-O: %s'%parametros_potencial[10], xy=(0.02,0.40), fontsize=10)
+    ax0.annotate(s='Covexp W-O1: D=%s,  a=%s,  r0=%s'%(parametros_potencial[11],parametros_potencial[12],parametros_potencial[13]), xy=(0.02,0.35), fontsize=10)
+    ax0.annotate(s='Covexp W-O2: D=%s,  a=%s,  r0=%s'%(parametros_potencial[14],parametros_potencial[15],parametros_potencial[16]), xy=(0.02,0.30), fontsize=10)
+    ax0.annotate(s='Covexp W-O3: D=%s,  a=%s,  r0=%s'%(parametros_potencial[17],parametros_potencial[18],parametros_potencial[19]), xy=(0.02,0.25), fontsize=10)
+    ax0.annotate(s='Covexp W-O4: D=%s,  a=%s,  r0=%s'%(parametros_potencial[20],parametros_potencial[21],parametros_potencial[22]), xy=(0.02,0.30), fontsize=10)
 
     #Parametrode rede
     ax1 = fig.add_subplot(4,1,2)
@@ -103,9 +106,9 @@ if len(sys.argv)!=2:
     print u'Voce deve fornecer o ID do potencial como argumento de entrada.'
 else:
     codigo = str(sys.argv[1])
-    encontrou_potencial, codigo_potencial,custo_potencial,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0 = coleta_potencial_por_codigo(codigo)
+    encontrou_potencial, codigo_potencial,custo_potencial,chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWO1D,covexpWO1a,covexpWO1r0,covexpWO2D,covexpWO2a,covexpWO2r0,covexpWO3D,covexpWO3a,covexpWO3r0,covexpWO4D,covexpWO4a,covexpWO4r0 = coleta_potencial_por_codigo(codigo)
     encontrou_propriedades,codigo_prop,custo_prop,a2,a50,a100,a150,a200,a250,a293,c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293,c12_2,c12_50,c12_100,c12_150,c12_200,c12_250,c12_293,c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293=coleta_propriedades_por_codigo(codigo)
-    parametros_potencial = np.asarray([chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWD,covexpWa,covexpWr0])
+    parametros_potencial = np.asarray([chargeO,buckZrA,buckZrRho,buckWA,buckWRho,buckOA,buckORho,buckOC,springO,threebOWO,threebOZrO,covexpWO1D,covexpWO1a,covexpWO1r0,covexpWO2D,covexpWO2a,covexpWO2r0,covexpWO3D,covexpWO3a,covexpWO3r0,covexpWO4D,covexpWO4a,covexpWO4r0])
     a_calc = np.asarray([a2,a50,a100,a150,a200,a250,a293])
     c11_calc = np.asarray([c11_2,c11_50,c11_100,c11_150,c11_200,c11_250,c11_293])
     c44_calc = np.asarray([c44_2,c44_50,c44_100,c44_150,c44_200,c44_250,c44_293])
@@ -118,7 +121,10 @@ else:
         print '   Spring O_core-O_shell: %s'%springO
         print '   3-Body O-Zr-O: %s'%threebOZrO
         print '   3-Body O-W-O: %s'%threebOWO 
-        print '   Covexp W-O: D= %s,  a= %s,  r0=%s'%(covexpWD,covexpWa,covexpWr0) 
+        print '   Covexp W-O: D= %s,  a= %s,  r0=%s'%(covexpWO1D,covexpWO1a,covexpWO1r0)
+        print '   Covexp W-O: D= %s,  a= %s,  r0=%s'%(covexpWO2D,covexpWO2a,covexpWO2r0)
+        print '   Covexp W-O: D= %s,  a= %s,  r0=%s'%(covexpWO3D,covexpWO3a,covexpWO3r0)
+        print '   Covexp W-O: D= %s,  a= %s,  r0=%s'%(covexpWO4D,covexpWO4a,covexpWO4r0)
         print 'Custo: %s'%custo_potencial
         grafico_propriedades(codigo, custo_potencial, parametros_potencial, a_calc, c11_calc, c44_calc)
     else:

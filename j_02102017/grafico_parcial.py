@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*- 
 import numpy as np
 import matplotlib.pyplot as plt
-
+import definicoes
 
 with open('custos_individuais.txt','r') as f:
     linhas = f.readlines()
 A=[]
-total_minimo = 5000000000.0
+total_minimo = definicoes.penalidade
 n=0
-parametros_minimo = 0.0
-posicoes_minimo = 0.0
-constantes_minimo = 0.0
+parametros_minimo = total_minimo/3.0
+posicoes_minimo = total_minimo/3.0
+constantes_minimo = total_minimo/3.0
 for l in linhas[1:]:
     i, total, parametros, posicoes, constantes = l.rstrip('\n').split('\t')
     if float(total)<total_minimo:

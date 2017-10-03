@@ -145,7 +145,7 @@ def funcao_custo(parametro_rede_a_2K, zr_x_2K, w1_x_2K, w2_x_2K,
     variacao_constantes = definicoes.peso_variacao_constantes*(abs(1.0-delta_c11_calc/delta_c11_exp)+
                                                                abs(1.0-delta_c12_calc/delta_c12_exp)+
                                                                abs(1.0-delta_c44_calc/delta_c44_exp))/3.0                           
-    custo_total = parametros + posicoes +  constantes + variacao_parametro_rede+variacao_constantes
+    custo_total = parametros + posicoes +  constantes
     return custo_total, parametros, posicoes, constantes
 
 

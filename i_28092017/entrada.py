@@ -22,7 +22,7 @@ def cria_dicionario_potenciais(P):
     potenciais = {}
 
     for p in P:
-        chave = '$' + str(i)
+        chave = '$' + str(i) + '$'
 
         potenciais[chave] = P[i]
 
@@ -47,10 +47,10 @@ def altera_arquivo_entrada (linhas_arquivo_entrada_gulp, potenciais):
                 linhas_arquivo_entrada_gulp_copia[i] = l.replace(c,str(potenciais[c]))
                 
             #Altera carga da casca de oxigenio que nao e parametro livre
-            if '&0' in l:
+            if '&0&' in l:
                 linhas_arquivo_entrada_gulp_copia[i] = l.replace('&0', str(-potenciais['$0']-2))
                 
-            if '&1' in l:
+            if '&1&' in l:
                 linhas_arquivo_entrada_gulp_copia[i] = l.replace('&1', str(-potenciais['$1']-2))
 
             i = i + 1

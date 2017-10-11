@@ -152,26 +152,26 @@ temperature 293.0
 species 4
 Zr core 4.000000
 W core 6.000000
-O core $0
-O shel &0
+O core $0$
+O shel &0&
 buck
-Zr core O shel $1 $2 0.00 0.00 12.00 0 0 0
+Zr core O shel $1$ $2$ 0.00 0.00 12.00 0 0 0
 buck
-W core O shel $3 $4 0.00 0.00 12.00 0 0 0
+W core O shel $3$ $4$ 0.00 0.00 12.00 0 0 0
 buck
-O shel O shel $5 $6 $7 0.00 12.00 0 0 0
+O shel O shel $5$ $6$ $7$ 0.00 12.00 0 0 0
 spring
-O $8 0
+O $8$ 0
 ####tres corpos
 three
-W core O shel O shel $9 109.47 1.9 1.9 3.0
-Zr core O shel O shel $10 90.0 2.3 2.3 3.0
+W core O shel O shel $9$ 109.47 1.9 1.9 3.0
+Zr core O shel O shel $10$ 90.0 2.3 2.3 3.0
 ####covexp
 covexp
-W core O1 shel $11 $12 $13 0.0 2.0 0 0 0
-W core O2 shel $14 $15 $16 0.0 2.0 0 0 0
-W core O3 shel $17 $18 $19 0.0 2.0 0 0 0
-W core O4 shel $20 $21 $22 0.0 2.0 0 0 0
+W core O1 shel $11$ $12$ $13$ 0.0 2.0 0 0 0
+W core O2 shel $14$ $15$ $16$ 0.0 2.0 0 0 0
+W core O3 shel $17$ $18$ $19$ 0.0 2.0 0 0 0
+W core O4 shel $20$ $21$ $22$ 0.0 2.0 0 0 0
 #################################################
 time 4 hours
 #################################################
